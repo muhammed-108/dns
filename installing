@@ -1,0 +1,8 @@
+3.2.2 Installing the DNS Software
+Run the following command on the newly created VM that functions as the DNS server
+to install DNS-related software:
+yum install -y bind
+Wait until the installation is complete and run the following command to start DNSrelated services:
+systemctl start named
+If no error message is displayed, check whether the port used by DNS is listened on, as
+shown in the following figure.

@@ -1,0 +1,19 @@
+Step 1 Create a reverse resolution resource record.
+Bind provides the administrator with a template file for configuring resource records. The
+file is stored in the /var/named directory and named named.loopback. Run the cp
+command to copy the file as 192.168.1.zone. The details are as follows:
+cd /var/named
+cp named.loopback 192.168.1.zone -p
+After the copy is complete, modify the configurations in 192.168.1.zone as follows:
+
+$TTL 1D
+@ IN SOA master.test.com. admin.test.com. (
+ 0 ; serial
+ 1D ; refresh
+ 1H ; retry
+1W ; expire
+3H ) ; minimum
+ NS master
+master A 192.168.1.13
+12 PTR www.test.com
+

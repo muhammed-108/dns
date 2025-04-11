@@ -17,3 +17,7 @@ $TTL 1D
 master A 192.168.1.13
 12 PTR www.test.com
 
+
+step 2 ba rasm danrawa
+
+step 3 nslookup anusit

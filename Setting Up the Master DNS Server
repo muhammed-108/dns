@@ -1,0 +1,53 @@
+Step 1 Create a forward resolution resource record.
+Bind provides the administrator with a template file for configuring resource records. The
+file is stored in the /var/named directory and named named.localhost. Run the cp
+command to copy the file as test.com.zone. The details are as follows:
+cd /var/named
+cp named.localhost test.com.zone -p
+After the copy is complete, modify the configurations in test.com.zone as follows:
+$TTL 1D
+@ IN SOA master.test.com. admin.test.com. (
+ 0 ; serial
+1D ; refresh
+1H ; retry
+1W ; expire
+3H ) ; minimum
+ NS master
+master A 192.168.1.13
+www CNAME main
+main A 192.168.1.12
+
+
+Step 2 Modify the configurations.
+Modify the listening port and permission configurations in the /etc/named.conf
+configuration file of the DNS service, as shown in the following figure.
+
+
+dwatr la file /etc/named.rfc1913.zones
+ama zyad bka
+
+zone "test.com" IN {
+ type master;
+ file "test.come.zone";
+};
+
+dwatr check akaitawa ba named-checkconf
+dwatr named-checkzone test.com /var/named/text.com.zone
+
+inja reload rndc reload
+
+Step 3 Verify the configurations.
+On the VM of the NGINX server, run the following commands (change ens33 in the
+commands as required) to point the DNS server address to the newly configured server:
+nmcli con mod ens33 ipv4.dns 192.168.1.13
+nmcli con down ens33 && nmcli con up ens33
+To ensure the lab effect, manually set the DNS server address of the VPC where the ECS
+resides to 192.168.1.13, as shown in the following figure.
+
+After the configuration is complete, run the nslookup command to check whether the
+DNS service can correctly resolve www.test.com to 192.168.1.12, as shown in the
+following figure.
+
+Run the curl command to access www.test.com, as shown in the following figure.
+
+
